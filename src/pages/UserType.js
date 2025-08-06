@@ -50,7 +50,7 @@ const UserType = () => {
         localStorage.setItem('user', JSON.stringify(updatedUser));
         toast.success('User type saved!');
 
-        // Redirect logic
+        // Determine where to redirect
         const targetPath = location.state?.from || (type === 1 ? '/traveler-match' : '/requestor-match');
         navigate(targetPath, {
           state: {

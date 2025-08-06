@@ -9,7 +9,7 @@ import Requester from '../pages/Requester';
 import Profile from '../pages/Profile';
 import TravelerMatchMaking from '../pages/TravelerMatchMaking';
 import RequesterMatchMaking from '../pages/RequesterMatchMaking';
-import { PrivateRoute, PublicRoute, RoleBasedRoute } from './ProtectedRoutes';
+import { PrivateRoute, PublicRoute } from './ProtectedRoutes';
 import Chat from '../pages/Chat';
 import OTP from '../pages/OTP';
 import ConnectionRequests from '../pages/ConnectionRequests';
@@ -20,9 +20,10 @@ export const publicRoutes = [
   { path: '/forgot-password', element: <PublicRoute><ForgotPassword /></PublicRoute> },
   { path: '/reset-password', element: <PublicRoute><ResetPassword /></PublicRoute> },
   { path: '/otp', element: <PublicRoute><OTP /></PublicRoute> },
-  
-  { path: '/traveler-match', element: <TravelerMatchMaking /> },
-  { path: '/requestor-match', element: <RequesterMatchMaking /> }
+
+  // ✅ Allow both logged-in and logged-out users to access
+  { path: '/traveler-match', element: <PrivateRoute><TravelerMatchMaking /></PrivateRoute> },
+  { path: '/requestor-match', element: <PrivateRoute><RequesterMatchMaking /></PrivateRoute> }
 ];
 
 export const privateRoutes = [

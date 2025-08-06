@@ -28,13 +28,24 @@ const RequesterMatchMaking = () => {
 
   useEffect(() => {
     const user = getCurrentUser();
-    // Only check type if user is logged in
-    if (user && user.type_id !== 2) {
-      toast.error('Access denied. Only requesters can access this page.');
+    if (user && user.type_id === 2) {
+      toast.error('Requesters cannot access Requestor Matchmaking page.');
       navigate('/profile');
     }
-    // If no user, allow access (guest mode)
-  }, [navigate]);
+
+    // Restore search if coming from login flow
+    if (location.state?.searchData) {
+      const { departureAirport, arrivalAirport, radius, selectedDate } = location.state.searchData;
+      setSelectedAirport({ departure: departureAirport, arrival: arrivalAirport });
+      setSearch({
+        departure: `${departureAirport.name} (${departureAirport.city}, ${departureAirport.state}, ${departureAirport.country})`,
+        arrival: `${arrivalAirport.name} (${arrivalAirport.city}, ${arrivalAirport.state}, ${arrivalAirport.country})`
+      });
+      setRadius(radius);
+      setSelectedDate(selectedDate);
+      setTimeout(() => handleSearch(), 200); // Small delay to ensure state is set
+    }
+  }, [location.state]);
 
   useEffect(() => {
     if (location.state?.searchData) {

@@ -25,10 +25,10 @@ const Header = () => {
           <>
             <Link to="/profile" className="text-blue-600 hover:underline">Profile</Link>
             {user?.type_id === 1 && (
-              <Link to="/traveler-match" className="text-blue-600 hover:underline">Traveler Match</Link>
+              <Link to="/requestor-match" className="text-blue-600 hover:underline">Requestor Match</Link>
             )}
             {user?.type_id === 2 && (
-              <Link to="/requestor-match" className="text-blue-600 hover:underline">Requestor Match</Link>
+              <Link to="/traveler-match" className="text-blue-600 hover:underline">Traveler Match</Link>
             )}
             <Link to="/chat" className="text-blue-600 hover:underline">Chat</Link>
             <button

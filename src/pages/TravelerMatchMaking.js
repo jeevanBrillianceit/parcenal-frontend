@@ -28,12 +28,12 @@ const TravelerMatchMaking = () => {
 
   useEffect(() => {
     const user = getCurrentUser();
-    if (user && user.type_id !== 1) {
-      toast.error('Access denied. Only travelers can access this page.');
+    if (user && user.type_id === 1) {
+      toast.error('Travelers cannot access Traveler Matchmaking page.');
       navigate('/profile');
     }
 
-    // Check for search data in location state
+    // Restore search if coming from login flow
     if (location.state?.searchData) {
       const { departureAirport, arrivalAirport, radius, selectedDate } = location.state.searchData;
       setSelectedAirport({ departure: departureAirport, arrival: arrivalAirport });
@@ -43,7 +43,7 @@ const TravelerMatchMaking = () => {
       });
       setRadius(radius);
       setSelectedDate(selectedDate);
-      handleSearch(); // Trigger search with the restored parameters
+      setTimeout(() => handleSearch(), 200); // Small delay to ensure state is set
     }
   }, [location.state]);
 
@@ -174,17 +174,17 @@ const TravelerMatchMaking = () => {
 
   const handleSendRequest = async (receiverId, index, contextType, contextId) => {
     if (!isTokenValid()) {
-      navigate('/login', {
-        state: {
-          from: '/traveler-match',
-          searchData: {
-            departure: selectedAirport.departure,
-            arrival: selectedAirport.arrival,
-            radius,
-            selectedDate
-          }
+      localStorage.setItem('pendingSearch', JSON.stringify({
+        from: '/traveler-match',
+        searchData: {
+          departure: selectedAirport.departure,
+          arrival: selectedAirport.arrival,
+          radius,
+          selectedDate
         }
-      });
+      }));
+
+      navigate('/login');
       return;
     }
 
