@@ -5,39 +5,18 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo "Installing frontend dependencies..."
-      - cd frontend
+      - echo Installing dependencies...
       - npm install
-      - cd ..
-      - echo "Installing backend dependencies..."
-      - cd backend
-      - npm install
-      - cd ..
-
   build:
     commands:
-      - echo "Building React frontend..."
-      - cd frontend
+      - echo Build started...
       - npm run build
-      - cd ..
-      - echo "Preparing deployment package structure..."
-      - mkdir -p deploy-output/frontend
-      - cp -r frontend/build/* deploy-output/frontend/
-      - mkdir -p deploy-output/backend
-      - cp -r backend/* deploy-output/backend/
-      - echo "Copying server files and .ebextensions..."
-      - cp -r .ebextensions deploy-output/
-      - cp -r package.json deploy-output/
-      - cp -r Procfile deploy-output/
-
   post_build:
     commands:
-      - echo "Zipping deployment package..."
-      - cd deploy-output
-      - zip -r ../build.zip * .[^.]*
-      - cd ..
-      - echo "Post-build complete."
-
+      - echo Build completed on `date`
+      - zip -r build-output.zip . -x "*.git*" "node_modules/*"
+      - aws s3 cp build-output.zip s3://parcenal/build-output.zip
 artifacts:
   files:
-    - build.zip
+    - '**/*'
+  base-directory: build
