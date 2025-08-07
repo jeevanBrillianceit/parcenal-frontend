@@ -3,20 +3,26 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 20
     commands:
       - echo Installing dependencies...
       - npm install
+
   build:
     commands:
-      - echo Build started...
+      - echo Building React app...
       - npm run build
+      - cp -r deployment/package.json build/package.json
+      - cd build && npm install --production
+
   post_build:
     commands:
-      - echo Build completed on `date`
-      - zip -r build-output.zip . -x "*.git*" "node_modules/*"
-      - aws s3 cp build-output.zip s3://parcenal/build-output.zip
+      - echo Creating deployment package...
+      - cd build
+      - zip -r ../build.zip .
+      - cd ..
+
 artifacts:
   files:
-    - '**/*'
-  base-directory: build
+    - build.zip
+  discard-paths: yes
