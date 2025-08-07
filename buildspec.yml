@@ -3,26 +3,23 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      nodejs: 18
     commands:
       - echo Installing dependencies...
       - npm install
-
+  pre_build:
+    commands:
+      - echo Pre-build started...
   build:
     commands:
-      - echo Building React app...
+      - echo Build started...
       - npm run build
-      - cp -r deployment/package.json build/package.json
-      - cd build && npm install --production
-
   post_build:
     commands:
-      - echo Creating deployment package...
-      - cd build
-      - zip -r ../build.zip .
-      - cd ..
-
+      - echo Post build started...
+      - mkdir -p deployments/build
+      - cp -r build/* deployments/build/
 artifacts:
+  base-directory: deployments/build
   files:
-    - build.zip
-  discard-paths: yes
+    - '**/*'

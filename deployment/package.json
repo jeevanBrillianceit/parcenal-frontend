@@ -1,12 +1,12 @@
 {
-  "name": "parcenal-production",
+  "name": "react-app",
   "version": "1.0.0",
-  "description": "Production package for Elastic Beanstalk",
+  "description": "Fake server for React static hosting",
   "main": "server.js",
   "scripts": {
-    "start": "serve -s build -l 3000"
+    "start": "npx serve -s build -l 8080"
   },
   "dependencies": {
-    "serve": "^14.0.1"
+    "serve": "^14.2.0"
   }
 }
