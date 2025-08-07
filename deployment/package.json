@@ -1,5 +1,5 @@
 {
-  "name": "react-eb",
+  "name": "react-eb-app",
   "version": "1.0.0",
   "scripts": {
     "start": "npx serve -s build -l 8080"
