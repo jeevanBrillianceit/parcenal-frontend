@@ -1,8 +1,6 @@
 {
-  "name": "react-app",
+  "name": "react-eb",
   "version": "1.0.0",
-  "description": "Fake server for React static hosting",
-  "main": "server.js",
   "scripts": {
     "start": "npx serve -s build -l 8080"
   },

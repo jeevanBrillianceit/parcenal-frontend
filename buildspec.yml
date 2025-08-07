@@ -5,21 +5,19 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo Installing dependencies...
-      - npm install
-  pre_build:
-    commands:
-      - echo Pre-build started...
+      - echo Installing root dependencies...
+      - npm ci
   build:
     commands:
-      - echo Build started...
+      - echo Building React app...
       - npm run build
   post_build:
     commands:
-      - echo Post build started...
-      - mkdir -p deployments/build
-      - cp -r build/* deployments/build/
+      - echo Post build: Preparing EB artifact...
+      - mkdir -p deployment
+      - cp -r build deployment/build
+      - cp -r deployments/package.json deployment/package.json
 artifacts:
-  base-directory: deployments/build
+  base-directory: deployment
   files:
     - '**/*'
