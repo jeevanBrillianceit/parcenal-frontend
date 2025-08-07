@@ -5,16 +5,38 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo Installing dependencies...
+      - echo "Installing frontend dependencies..."
       - cd frontend
       - npm install
+      - cd ..
+      - echo "Installing backend dependencies..."
+      - cd backend
+      - npm install
+      - cd ..
 
   build:
     commands:
-      - echo Building React app...
+      - echo "Building React frontend..."
+      - cd frontend
       - npm run build
-      - echo Preparing deployment ZIP...
-      - zip -r build.zip * .[^.]*
+      - cd ..
+      - echo "Preparing deployment package structure..."
+      - mkdir -p deploy-output/frontend
+      - cp -r frontend/build/* deploy-output/frontend/
+      - mkdir -p deploy-output/backend
+      - cp -r backend/* deploy-output/backend/
+      - echo "Copying server files and .ebextensions..."
+      - cp -r .ebextensions deploy-output/
+      - cp -r package.json deploy-output/
+      - cp -r Procfile deploy-output/
+
+  post_build:
+    commands:
+      - echo "Zipping deployment package..."
+      - cd deploy-output
+      - zip -r ../build.zip * .[^.]*
+      - cd ..
+      - echo "Post-build complete."
 
 artifacts:
   files:
