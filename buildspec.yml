@@ -15,9 +15,10 @@ phases:
     commands:
       - echo Preparing deployment artifacts...
       - mkdir -p dist
-      - cp -r build/* dist/
+      - cp -r build dist/
       - cp deployments/package.json dist/package.json
       - echo Build completed on `date`
+
 artifacts:
   base-directory: dist
   files:
