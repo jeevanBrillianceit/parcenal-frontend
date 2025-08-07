@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo Installing frontend dependencies...
+      - echo Installing dependencies...
       - npm install
   build:
     commands:
@@ -13,11 +13,9 @@ phases:
       - npm run build
   post_build:
     commands:
-      - echo Preparing deployment artifacts...
-      - mkdir -p dist
-      - cp -r build dist/build
-      - cp deployments/package.json dist/package.json
+      - echo Copying React build and server package.json...
+      - cp deployments/package.json .
 artifacts:
-  base-directory: dist
   files:
     - '**/*'
+    - 'build/**/*'
