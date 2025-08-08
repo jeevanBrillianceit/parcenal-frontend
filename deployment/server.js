@@ -8,7 +8,11 @@ const staticFilesDir = path.join(__dirname);
 
 // Check if build/index.html exists and log result (for debugging)
 const indexPath = path.join(staticFilesDir, 'index.html'); // Index.html is now directly in the 'dist' folder
+  console.log(`11111 Server running on port ${indexPath}`);
+  console.log(`22222 Server running on port ${staticFilesDir}`);
+
 fs.access(indexPath, fs.constants.F_OK, (err) => {
+  console.log(`33333 Server running on port ${err}`);
   if (err) {
     console.error('index.html NOT found at:', indexPath);
   } else {
